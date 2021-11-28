@@ -1,3 +1,4 @@
+from typing import Deque
 import pyautogui
 import time
 from datetime import datetime
@@ -46,11 +47,16 @@ def check_overload():
 def check_unknow():
     error_pos = pyautogui.locateOnScreen('unknow_btn.png')
     if error_pos != None:
-        click_ok()
-        time.sleep(20)
-        login_absolute()
+        # click_ok()
+        # time.sleep(20)
+        # login_absolute()
         return True
     return False
+
+def check_newMap():
+    check_pos = pyautogui.locateOnScreen('newmap_btn.png')
+    if check_pos != None:
+        pyautogui.click(pyautogui.center(check_pos), duration=1)
 
 def error_quit(event):
     current_time = get_current_time()
@@ -134,26 +140,30 @@ time.sleep(2)
 current_time = get_current_time()
 print("Start Time =", current_time)
 
-# login_absolute()
 
-width, height = pyautogui.size()
 while True:
     for i in range(25):
         time.sleep(60)
-        flag = check_unknow()
-        if flag == True:
-            continue
-    click_pos = pyautogui.locateOnScreen('back2menu_btn.png')
-    if click_pos != None:
-        pyautogui.click(pyautogui.center(click_pos), duration=1)
-        time.sleep(5)
+    check_newMap()
 
-        check_menu_pos = pyautogui.locateOnScreen('menu.png')
-        if check_menu_pos != None:
-            pyautogui.click(1383, 789, duration=3)
-            click_heros2work()
-            print("succeccful")
-        else:
-            error_quit("check menu")
-    else:
-        error_quit("back2menu_btn")
+    time.sleep(10)
+    pyautogui.click(970, 840, duration=1)
+    time.sleep(3)
+    pyautogui.click(970, 815, duration=1)
+    time.sleep(3)
+
+    for i in range(25):
+        pyautogui.moveTo(890, 760, duration=1)
+        pyautogui.scroll(-1000)
+    for i in range(15):
+        pyautogui.click(890, 760, duration=1)
+        time.sleep(1)
+
+    pyautogui.click(1030, 370, duration=1)
+    time.sleep(1)
+    pyautogui.click(1030, 370, duration=1)
+    
+    if check_unknow() == True:
+        current_time = get_current_time()
+        print("End Time =", current_time)
+        break
